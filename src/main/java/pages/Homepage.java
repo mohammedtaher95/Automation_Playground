@@ -1,57 +1,67 @@
 package pages;
 
+import driverfactory.Driver;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 
 public class Homepage {
 
-    public WebDriver driver;
+    public Driver driver;
+
 
     By loginLink = By.xpath("//a[@href=\"/login\"]");
     By logoutLink = By.xpath("//a[@href=\"/logout\"]");
     By deleteAccountLink = By.xpath("//a[@href=\"/delete_account\"]");
     By contactUsLink = By.xpath("//a[@href=\"/contact_us\"]");
 
-    public Homepage(WebDriver driver){
+    public Homepage(Driver driver){
         this.driver = driver;
     }
 
     /***************************************** Assertions ********************************************/
 
-    public void checkThatLogoutLinkShouldBeDisplayed() {
-        Assert.assertTrue(driver.findElement(logoutLink).isDisplayed());
+    public Homepage checkThatLogoutLinkShouldBeDisplayed() {
+        Assert.assertTrue(driver.element().isDisplayed(logoutLink));
+        return this;
     }
 
-    public void checkThatLoginLinkShouldBeDisplayed() {
-        Assert.assertTrue(driver.findElement(loginLink).isDisplayed());
+    public Homepage checkThatLoginLinkShouldBeDisplayed() {
+        Assert.assertTrue(driver.element().isDisplayed(loginLink));
+        return this;
     }
 
-    public void checkThatDeleteAccountLinkShouldBeDisplayed() {
-        Assert.assertTrue(driver.findElement(deleteAccountLink).isDisplayed());
+    public Homepage checkThatDeleteAccountLinkShouldBeDisplayed() {
+        Assert.assertTrue(driver.element().isDisplayed(deleteAccountLink));
+        return this;
     }
 
-    public void checkThatUserShouldBeNavigatedToHomePageSuccessfully() {
-        Assert.assertEquals(driver.getCurrentUrl(), "https://automationexercise.com/");
+    public Homepage checkThatUserShouldBeNavigatedToHomePageSuccessfully() {
+        Assert.assertEquals(driver.get().getCurrentUrl(), "https://automationexercise.com/");
+        return this;
     }
 
 
     /******************************************* Actions ********************************************/
 
-    public void clickOnLoginLink(){
-        driver.findElement(loginLink).click();
+    public LoginSignUpPage clickOnLoginLink(){
+        driver.get().findElement(loginLink).click();
+        return new LoginSignUpPage(driver);
     }
 
-    public void clickOnLogoutLink(){
-        driver.findElement(logoutLink).click();
+    public LoginSignUpPage clickOnLogoutLink(){
+        driver.get().findElement(logoutLink).click();
+        return new LoginSignUpPage(driver);
     }
 
-    public void clickOnDeleteAccountLink(){
-        driver.findElement(deleteAccountLink).click();
+    public AccountSuccessfulDeletion clickOnDeleteAccountLink(){
+        driver.element().click(deleteAccountLink);
+        return new AccountSuccessfulDeletion(driver);
     }
 
-    public void clickOnContactUsLink() {
-        driver.findElement(contactUsLink).click();
+    public ContactUsPage clickOnContactUsLink() {
+        driver.get().findElement(contactUsLink).click();
+        return new ContactUsPage(driver);
     }
 
 }

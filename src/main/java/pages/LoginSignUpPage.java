@@ -1,12 +1,13 @@
 package pages;
 
+import driverfactory.Driver;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 
 public class LoginSignUpPage {
 
-    public WebDriver driver;
+    public Driver driver;
 
     By loginEmail = By.xpath("//input[@data-qa=\"login-email\"]");
     By loginPassword = By.xpath("//input[@data-qa=\"login-password\"]");
@@ -17,40 +18,47 @@ public class LoginSignUpPage {
     By signUpEmail = By.xpath("//input[@data-qa=\"signup-email\"]");
     By signUpButton = By.xpath("//button[@data-qa=\"signup-button\"]");
 
-    public LoginSignUpPage(WebDriver driver) {
+    public LoginSignUpPage(Driver driver) {
         this.driver = driver;
     }
 
     /****************************************** Assertions ******************************************/
 
-    public void checkThatUserIsNavigatedToLoginSignUpPage() {
-        Assert.assertTrue(driver.getCurrentUrl().contains("/login"));
-        Assert.assertEquals(driver.findElement(signUpFormTitle).getText(),"New User Signup!");
+    public LoginSignUpPage checkThatUserIsNavigatedToLoginSignUpPage() {
+        Assert.assertTrue(driver.get().getCurrentUrl().contains("/login"));
+        Assert.assertEquals(driver.element().getTextOf(signUpFormTitle),"New User Signup!");
+        return this;
     }
 
     /******************************************* Actions ********************************************/
 
-    public void fillInLoginEmail(String email) {
-        driver.findElement(loginEmail).sendKeys(email);
+    public LoginSignUpPage fillInLoginEmail(String email) {
+        driver.element().fillField(loginEmail, email);
+        return this;
     }
 
-    public void fillInLoginPassword(String password) {
-        driver.findElement(loginPassword).sendKeys(password);
+    public LoginSignUpPage fillInLoginPassword(String password) {
+        driver.element().fillField(loginPassword, password);
+        return this;
     }
 
-    public void clickOnLoginButton() {
-        driver.findElement(loginButton).click();
+    public Homepage clickOnLoginButton() {
+        driver.element().click(loginButton);
+        return new Homepage(driver);
     }
 
-    public void fillInSignUpName(String name) {
-        driver.findElement(signUpName).sendKeys(name);
+    public LoginSignUpPage fillInSignUpName(String name) {
+        driver.element().fillField(signUpName ,name);
+        return this;
     }
-    public void fillInSignUpEmail(String email) {
-        driver.findElement(signUpEmail).sendKeys(email);
+    public LoginSignUpPage fillInSignUpEmail(String email) {
+        driver.element().fillField(signUpEmail, email);
+        return this;
     }
 
-    public void clickOnSignUpButton() {
-        driver.findElement(signUpButton).click();
+    public RegistrationPage clickOnSignUpButton() {
+        driver.element().click(signUpButton);
+        return new RegistrationPage(driver);
     }
 
 }

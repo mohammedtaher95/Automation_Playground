@@ -1,5 +1,8 @@
 package tests;
 
+import driverfactory.Driver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import pages.Homepage;
 import pages.LoginSignUpPage;
 import pages.RegistrationPage;
@@ -9,89 +12,75 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.*;
 import pages.AccountSuccessfulDeletion;
 
+import java.time.Duration;
+
 public class NewTest {
 
-    WebDriver driver;
+    Driver driver;
 
-    Homepage homepage;
-    LoginSignUpPage loginSignUpPage;
-    RegistrationPage registrationPage;
-    RegistrationSuccessPage successPage;
-    AccountSuccessfulDeletion deleteAccount;
+    WebDriverWait wait;
 
     @BeforeClass
     public void setUp() {
-        driver = new ChromeDriver();
-        driver.manage().window().maximize();
-        driver.navigate().to("https://automationexercise.com/");
+        driver = new Driver("CHROME");
+        wait = new WebDriverWait(driver.get(), Duration.ofSeconds(30));
+        driver.get().manage().window().maximize();
+        driver.get().navigate().to("https://automationexercise.com/");
+        driver.get().manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
     }
 
     @Test(priority = 1)
     public void userCanRegisterSuccessfully() {
-        homepage = new Homepage(driver);
-        loginSignUpPage = new LoginSignUpPage(driver);
-        registrationPage = new RegistrationPage(driver);
-        successPage = new RegistrationSuccessPage(driver);
 
-        homepage.checkThatUserShouldBeNavigatedToHomePageSuccessfully();
-        homepage.clickOnLoginLink();
+        new Homepage(driver).checkThatUserShouldBeNavigatedToHomePageSuccessfully()
+                .clickOnLoginLink()
+                .checkThatUserIsNavigatedToLoginSignUpPage()
+                .fillInSignUpName("Mohammed")
+                .fillInSignUpEmail("test85874@gmail.com")
+                .clickOnSignUpButton()
+                .checkThatRegistrationPageIsLoadedSuccessfully()
+                .fillInRegistrationPage()
+                .clickOnCreateAccountButton()
+                .checkThatSuccessMessageShouldBeDisplayed();
 
-        loginSignUpPage.checkThatUserIsNavigatedToLoginSignUpPage();
-        loginSignUpPage.fillInSignUpName("Mohammed");
-        loginSignUpPage.fillInSignUpEmail("test85874@gmail.com");
-        loginSignUpPage.clickOnSignUpButton();
 
-        registrationPage.checkThatRegistrationPageIsLoadedSuccessfully();
-
-        registrationPage.fillInRegistrationPage();
-        registrationPage.clickOnCreateAccountButton();
-
-        successPage.checkThatSuccessMessageShouldBeDisplayed();
-
-        driver.manage().deleteAllCookies();
+        driver.get().manage().deleteAllCookies();
 
     }
 
     @Test(dependsOnMethods = "userCanRegisterSuccessfully", priority = 2)
     public void userCanLoginSuccessfully() {
-        driver.navigate().to("https://automationexercise.com/login");
+        driver.get().navigate().to("https://automationexercise.com/login");
 
-        loginSignUpPage.fillInLoginEmail("test85874@gmail.com");
-        loginSignUpPage.fillInLoginPassword("12345678");
-        loginSignUpPage.clickOnLoginButton();
-
-        homepage.checkThatLogoutLinkShouldBeDisplayed();
+        new LoginSignUpPage(driver).fillInLoginEmail("test85874@gmail.com")
+                .fillInLoginPassword("12345678")
+                .clickOnLoginButton().checkThatLogoutLinkShouldBeDisplayed();
     }
 
     @Test(dependsOnMethods = "userCanLoginSuccessfully", priority = 3)
     public void userCanLogoutSuccessfully() {
-        homepage.clickOnLogoutLink();
-        homepage.checkThatLoginLinkShouldBeDisplayed();
-        loginSignUpPage.checkThatUserIsNavigatedToLoginSignUpPage();
+
+        new Homepage(driver).clickOnLogoutLink()
+                .checkThatUserIsNavigatedToLoginSignUpPage();
     }
 
     @Test(dependsOnMethods = "userCanLogoutSuccessfully", priority = 4)
     public void userCanDeleteAccountSuccessfully() {
-        deleteAccount = new AccountSuccessfulDeletion(driver);
 
-        loginSignUpPage.fillInLoginEmail("test85874@gmail.com");
-        loginSignUpPage.fillInLoginPassword("12345678");
-        loginSignUpPage.clickOnLoginButton();
-
-        homepage.checkThatLogoutLinkShouldBeDisplayed();
-        homepage.clickOnDeleteAccountLink();
-
-        deleteAccount.checkThatAccountShouldBeDeletedSuccessfully();
-        deleteAccount.clickOnContinueButton();
-
-        homepage.checkThatUserShouldBeNavigatedToHomePageSuccessfully();
-        homepage.checkThatLoginLinkShouldBeDisplayed();
-
+        new LoginSignUpPage(driver).fillInLoginEmail("test85874@gmail.com")
+                .fillInLoginPassword("12345678")
+                .clickOnLoginButton()
+                .checkThatLogoutLinkShouldBeDisplayed()
+                .clickOnDeleteAccountLink()
+                .checkThatAccountShouldBeDeletedSuccessfully()
+                .clickOnContinueButton()
+                .checkThatUserShouldBeNavigatedToHomePageSuccessfully()
+                .checkThatLoginLinkShouldBeDisplayed();
     }
 
     @AfterClass
     public void tearDown() {
-        driver.manage().deleteAllCookies();
+        driver.get().manage().deleteAllCookies();
         driver.quit();
     }
 }

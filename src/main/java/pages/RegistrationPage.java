@@ -1,5 +1,6 @@
 package pages;
 
+import driverfactory.Driver;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.Select;
@@ -7,7 +8,7 @@ import org.testng.Assert;
 
 public class RegistrationPage {
 
-    public WebDriver driver;
+    public Driver driver;
 
     By pageTitle = By.xpath("(//h2[@class=\"title text-center\"])[1]");
     By password = By.id("password");
@@ -21,35 +22,38 @@ public class RegistrationPage {
     By mobileNumber = By.xpath("//input[@data-qa=\"mobile_number\"]");
     By createAccountButton = By.xpath("//button[@data-qa=\"create-account\"]");
 
-    public RegistrationPage(WebDriver driver) {
+    public RegistrationPage(Driver driver) {
         this.driver = driver;
     }
 
     /***************************************** Assertions  ******************************************/
 
-    public void checkThatRegistrationPageIsLoadedSuccessfully() {
-        Assert.assertTrue(driver.getCurrentUrl().contains("/signup"));
-        Assert.assertEquals(driver.findElement(pageTitle).getText(), "ENTER ACCOUNT INFORMATION");
+    public RegistrationPage checkThatRegistrationPageIsLoadedSuccessfully() {
+        Assert.assertTrue(driver.get().getCurrentUrl().contains("/signup"));
+        Assert.assertEquals(driver.get().findElement(pageTitle).getText(), "ENTER ACCOUNT INFORMATION");
+        return this;
     }
 
     /******************************************* Actions ********************************************/
 
-    public void fillInRegistrationPage() {
-        driver.findElement(password).sendKeys("12345678");
-        driver.findElement(firstName).sendKeys("Mohammed");
-        driver.findElement(lastName).sendKeys("Taher");
-        driver.findElement(address).sendKeys("Alexandria");
-        driver.findElement(state).sendKeys("Alex");
-        driver.findElement(city).sendKeys("Alex");
+    public RegistrationPage fillInRegistrationPage() {
+        driver.get().findElement(password).sendKeys("12345678");
+        driver.get().findElement(firstName).sendKeys("Mohammed");
+        driver.get().findElement(lastName).sendKeys("Taher");
+        driver.get().findElement(address).sendKeys("Alexandria");
+        driver.get().findElement(state).sendKeys("Alex");
+        driver.get().findElement(city).sendKeys("Alex");
 
-        Select select = new Select(driver.findElement(country));
+        Select select = new Select(driver.get().findElement(country));
         select.selectByValue("Canada");
 
-        driver.findElement(zipCode).sendKeys("21500");
-        driver.findElement(mobileNumber).sendKeys("01234456978");
+        driver.get().findElement(zipCode).sendKeys("21500");
+        driver.get().findElement(mobileNumber).sendKeys("01234456978");
+        return this;
     }
 
-    public void clickOnCreateAccountButton() {
-        driver.findElement(createAccountButton).click();
+    public RegistrationSuccessPage clickOnCreateAccountButton() {
+        driver.get().findElement(createAccountButton).click();
+        return new RegistrationSuccessPage(driver);
     }
 }

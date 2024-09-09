@@ -1,5 +1,6 @@
 package tests;
 
+import driverfactory.Driver;
 import pages.ContactUsPage;
 import pages.Homepage;
 import org.openqa.selenium.WebDriver;
@@ -10,39 +11,34 @@ import org.testng.annotations.Test;
 
 public class ContactUsTest {
 
-    WebDriver driver;
-    Homepage homepage;
-    ContactUsPage contactUsPage;
+    Driver driver;
 
     @BeforeClass
     public void setUp() {
-        driver = new ChromeDriver();
-        driver.manage().window().maximize();
-        driver.navigate().to("https://automationexercise.com/");
+        driver = new Driver("CHROME");
+        driver.get().manage().window().maximize();
+        driver.get().navigate().to("https://automationexercise.com/");
+
     }
 
     @Test
     public void contactUsTest() {
 
-        homepage = new Homepage(driver);
-        contactUsPage = new ContactUsPage(driver);
+        new Homepage(driver).checkThatUserShouldBeNavigatedToHomePageSuccessfully()
+                .clickOnContactUsLink()
+                .checkThatContactUsPageIsLoadedSuccessfully()
+                .fillInContactUsForm("Mohammed", "test12345@gmail.com", "Test", "Welcome")
+                .clickOnSubmitButton()
+                .checkThatFormShouldBeSubmittedSuccessfully()
+                .clickOnHomeButton()
+                .checkThatUserShouldBeNavigatedToHomePageSuccessfully();
 
-        homepage.checkThatUserShouldBeNavigatedToHomePageSuccessfully();
-        homepage.clickOnContactUsLink();
-
-        contactUsPage.checkThatContactUsPageIsLoadedSuccessfully();
-        contactUsPage.fillInContactUsForm("Mohammed", "test12345@gmail.com", "Test", "Welcome");
-        contactUsPage.clickOnSubmitButton();
-        contactUsPage.checkThatFormShouldBeSubmittedSuccessfully();
-        contactUsPage.clickOnHomeButton();
-
-        homepage.checkThatUserShouldBeNavigatedToHomePageSuccessfully();
 
     }
 
     @AfterClass
     public void tearDown() {
-        driver.manage().deleteAllCookies();
+        driver.get().manage().deleteAllCookies();
         driver.quit();
     }
 }
