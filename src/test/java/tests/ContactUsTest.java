@@ -2,6 +2,8 @@ package tests;
 
 import driverfactory.Driver;
 import org.openqa.selenium.By;
+import org.testng.ITestResult;
+import org.testng.annotations.AfterMethod;
 import pages.ContactUsPage;
 import pages.Homepage;
 import org.openqa.selenium.WebDriver;
@@ -9,6 +11,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+import utilities.ScreenShotManager;
 
 import java.time.Duration;
 
@@ -39,6 +42,18 @@ public class ContactUsTest {
                 .clickOnHomeButton()
                 .checkThatUserShouldBeNavigatedToHomePageSuccessfully();
 
+
+
+    }
+
+    @AfterMethod
+    public void screenshotOnFailure(ITestResult result) {
+
+        if(result.getStatus() == ITestResult.FAILURE){
+            System.out.println("Test Failed");
+            System.out.println("Taking screen shot.....");
+            ScreenShotManager.captureScreenshot(driver.get(), result.getName());
+        }
 
     }
 
