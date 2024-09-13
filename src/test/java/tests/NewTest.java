@@ -27,6 +27,7 @@ public class NewTest {
         driver.get().manage().window().maximize();
         driver.get().navigate().to("https://automationexercise.com/");
         driver.get().manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+
     }
 
     @Test(priority = 1)
