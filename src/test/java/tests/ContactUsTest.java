@@ -25,13 +25,14 @@ public class ContactUsTest {
         driver.get().manage().window().maximize();
         driver.get().navigate().to("https://automationexercise.com/");
         driver.get().manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
-        driver.element().hoverOnItem(By.xpath("(//div[@class=\"product-overlay\"])[1]"))
-                .click(By.xpath("(//a[@class=\"btn btn-default add-to-cart\"])[1]"));
-        Thread.sleep(5000);
+
     }
 
     @Test
-    public void contactUsTest() {
+    public void contactUsTest() throws InterruptedException {
+//        driver.element().hoverOnItem(By.xpath("(//div[@class=\"product-overlay\"])[1]"))
+//                .click(By.xpath("(//a[@class=\"btn btn-default add-to-cart\"])[1]"));
+//        Thread.sleep(5000);
 
         new Homepage(driver).checkThatUserShouldBeNavigatedToHomePageSuccessfully()
                 .clickOnContactUsLink()
@@ -46,16 +47,16 @@ public class ContactUsTest {
 
     }
 
-    @AfterMethod
-    public void screenshotOnFailure(ITestResult result) {
-
-        if(result.getStatus() == ITestResult.FAILURE){
-            System.out.println("Test Failed");
-            System.out.println("Taking screen shot.....");
-            ScreenShotManager.captureScreenshot(driver.get(), result.getName());
-        }
-
-    }
+//    @AfterMethod
+//    public void screenshotOnFailure(ITestResult result) {
+//
+//        if(result.getStatus() == ITestResult.FAILURE){
+//            System.out.println("Test Failed");
+//            System.out.println("Taking screen shot.....");
+//            ScreenShotManager.captureScreenshot(driver.get(), result.getName());
+//        }
+//
+//    }
 
     @AfterClass
     public void tearDown() {

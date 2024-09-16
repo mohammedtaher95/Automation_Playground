@@ -2,12 +2,21 @@ package driverfactory;
 
 import browserActions.BrowserActions;
 import elementActions.ElementActions;
+import listeners.webdriver.WebDriverListeners;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.events.EventFiringDecorator;
 
 public class Driver {
-    private WebDriver driver;
+    private static WebDriver driver;
     public Driver(String driverType) {
-        driver = getDriver(driverType).startDriver();
+        WebDriver undecoratedDriver = getDriver(driverType).startDriver();
+
+//        driver = new EventFiringDecorator<>(org.openqa.selenium.WebDriver.class,
+//                new WebDriverListener(undecoratedDriver)).decorate(undecoratedDriver);
+//
+        driver = new EventFiringDecorator<>(org.openqa.selenium.WebDriver.class,
+                new WebDriverListeners(undecoratedDriver))
+                .decorate(undecoratedDriver);
         assert driver != null;
     }
     private DriverAbstract getDriver(String driver) {
@@ -27,7 +36,7 @@ public class Driver {
             }
         }
     }
-    public WebDriver get() {
+    public static WebDriver get() {
         return driver;
     }
     public void quit() {
