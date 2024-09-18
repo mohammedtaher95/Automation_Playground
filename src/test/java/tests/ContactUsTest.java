@@ -3,25 +3,24 @@ package tests;
 import driverfactory.Driver;
 import org.openqa.selenium.By;
 import org.testng.ITestResult;
-import org.testng.annotations.AfterMethod;
+import org.testng.annotations.*;
 import pages.ContactUsPage;
 import pages.Homepage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
 import utilities.ScreenShotManager;
 
 import java.time.Duration;
 
 public class ContactUsTest {
 
-    Driver driver;
+    public Driver driver;
+    ThreadLocal<Driver> parallelDriver;
 
     @BeforeClass
-    public void setUp() throws InterruptedException {
-        driver = new Driver("CHROME");
+    @Parameters(value = {"browserName"})
+    public void setUp(@Optional("EDGE") String browserName) {
+        driver = new Driver(browserName);
         driver.get().manage().window().maximize();
         driver.get().navigate().to("https://automationexercise.com/");
         driver.get().manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
@@ -30,9 +29,9 @@ public class ContactUsTest {
 
     @Test
     public void contactUsTest() throws InterruptedException {
-//        driver.element().hoverOnItem(By.xpath("(//div[@class=\"product-overlay\"])[1]"))
-//                .click(By.xpath("(//a[@class=\"btn btn-default add-to-cart\"])[1]"));
-//        Thread.sleep(5000);
+        driver.element().hoverOnItem(By.xpath("(//div[@class=\"product-overlay\"])[1]"))
+                .click(By.xpath("(//a[@class=\"btn btn-default add-to-cart\"])[1]"));
+        Thread.sleep(5000);
 
         new Homepage(driver).checkThatUserShouldBeNavigatedToHomePageSuccessfully()
                 .clickOnContactUsLink()

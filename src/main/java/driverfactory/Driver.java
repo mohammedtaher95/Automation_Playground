@@ -7,17 +7,16 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.events.EventFiringDecorator;
 
 public class Driver {
-    private static WebDriver driver;
+    private ThreadLocal<WebDriver> driver;
+
     public Driver(String driverType) {
         WebDriver undecoratedDriver = getDriver(driverType).startDriver();
+        assert undecoratedDriver != null;
 
-//        driver = new EventFiringDecorator<>(org.openqa.selenium.WebDriver.class,
-//                new WebDriverListener(undecoratedDriver)).decorate(undecoratedDriver);
-//
-        driver = new EventFiringDecorator<>(org.openqa.selenium.WebDriver.class,
+        driver = new ThreadLocal<>();
+        driver.set(new EventFiringDecorator<>(org.openqa.selenium.WebDriver.class,
                 new WebDriverListeners(undecoratedDriver))
-                .decorate(undecoratedDriver);
-        assert driver != null;
+                .decorate(undecoratedDriver));
     }
     private DriverAbstract getDriver(String driver) {
 
@@ -36,18 +35,19 @@ public class Driver {
             }
         }
     }
-    public static WebDriver get() {
-        return driver;
+    public WebDriver get() {
+        return driver.get();
     }
     public void quit() {
-        driver.quit();
+        driver.get().quit();
+        driver.remove();
     }
 
     public ElementActions element() {
-        return new ElementActions(driver);
+        return new ElementActions(driver.get());
     }
 
     public BrowserActions browser() {
-        return new BrowserActions(driver);
+        return new BrowserActions(driver.get());
     }
 }
