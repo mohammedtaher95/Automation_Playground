@@ -5,6 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.testng.*;
 import utilities.ScreenShotManager;
 
+import java.io.IOException;
 import java.lang.reflect.Field;
 
 public class TestNGListener implements IExecutionListener, ITestListener {
@@ -17,6 +18,12 @@ public class TestNGListener implements IExecutionListener, ITestListener {
     @Override
     public void onExecutionFinish() {
         System.out.println("Generating Report........");
+        try {
+            Runtime.getRuntime().exec("allure generate");
+            Runtime.getRuntime().exec("allure open");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         System.out.println("********************* End of Execution *********************");
     }
 
