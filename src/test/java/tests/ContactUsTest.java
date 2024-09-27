@@ -28,7 +28,7 @@ public class ContactUsTest {
     }
 
     @Test
-    public void contactUsTest() throws InterruptedException {
+    public void contactUsTest() {
         new Homepage(driver).checkThatUserShouldBeNavigatedToHomePageSuccessfully()
                 .clickOnContactUsLink()
                 .checkThatContactUsPageIsLoadedSuccessfully()
