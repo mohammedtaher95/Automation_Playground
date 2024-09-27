@@ -8,6 +8,7 @@ import utilities.ScreenShotManager;
 import java.io.IOException;
 import java.lang.reflect.Field;
 
+import static utilities.properties.PropertiesManager.ReportConfig;
 import static utilities.properties.PropertiesManager.initializeProperties;
 
 public class TestNGListener implements IExecutionListener, ITestListener {
@@ -21,10 +22,13 @@ public class TestNGListener implements IExecutionListener, ITestListener {
     @Override
     public void onExecutionFinish() {
         System.out.println("Generating Report........");
-        try {
-            Runtime.getRuntime().exec("reportGeneration.bat");
-        } catch (IOException e) {
-            System.out.println("Unable to Generate Allure Report, may be there's an issue in the batch file/commands");
+        if(ReportConfig.getProperty("OpenAllureReportAfterExecution").equalsIgnoreCase("true")){
+            try {
+                System.out.println("Opening Allure Report");
+                Runtime.getRuntime().exec("reportGeneration.bat");
+            } catch (IOException e) {
+                System.out.println("Unable to Generate Allure Report, may be there's an issue in the batch file/commands");
+            }
         }
         System.out.println("********************* End of Execution *********************");
     }
