@@ -8,11 +8,14 @@ import utilities.ScreenShotManager;
 import java.io.IOException;
 import java.lang.reflect.Field;
 
+import static utilities.properties.PropertiesManager.initializeProperties;
+
 public class TestNGListener implements IExecutionListener, ITestListener {
 
     @Override
     public void onExecutionStart() {
         System.out.println("**************** Welcome to Selenium Framework *****************");
+        initializeProperties();
     }
 
     @Override

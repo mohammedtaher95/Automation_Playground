@@ -20,9 +20,7 @@ public class ContactUsTest {
     @BeforeClass
     @Parameters(value = {"browserName"})
     public void setUp(@Optional("EDGE") String browserName) {
-        driver = new Driver(browserName);
-        driver.get().manage().window().maximize();
-        driver.get().navigate().to("https://automationexercise.com/");
+        driver = new Driver();
         driver.get().manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
 
     }
