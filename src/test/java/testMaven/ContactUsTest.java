@@ -24,9 +24,9 @@ public class ContactUsTest {
 
     @Test
     public void contactUsTest() throws InterruptedException {
-        driver.element().hoverOnItem(By.xpath("(//div[@class=\"product-overlay\"])[1]"))
-                .click(By.xpath("(//a[@class=\"btn btn-default add-to-cart\"])[1]"));
-        Thread.sleep(5000);
+//        driver.element().hoverOnItem(By.xpath("(//div[@class=\"product-overlay\"])[1]"))
+//                .click(By.xpath("(//a[@class=\"btn btn-default add-to-cart\"])[1]"));
+//        Thread.sleep(5000);
 
         new Homepage(driver).checkThatUserShouldBeNavigatedToHomePageSuccessfully()
                 .clickOnContactUsLink()

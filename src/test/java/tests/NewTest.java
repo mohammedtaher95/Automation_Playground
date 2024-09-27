@@ -37,7 +37,7 @@ public class NewTest {
                 .clickOnLoginLink()
                 .checkThatUserIsNavigatedToLoginSignUpPage()
                 .fillInSignUpName("Mohammed")
-                .fillInSignUpEmail("test85874@gmail.com")
+                .fillInSignUpEmail("test8584666@gmail.com")
                 .clickOnSignUpButton()
                 .checkThatRegistrationPageIsLoadedSuccessfully()
                 .fillInRegistrationPage()

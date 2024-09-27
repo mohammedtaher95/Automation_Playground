@@ -19,8 +19,7 @@ public class TestNGListener implements IExecutionListener, ITestListener {
     public void onExecutionFinish() {
         System.out.println("Generating Report........");
         try {
-            Runtime.getRuntime().exec("allure generate");
-            Runtime.getRuntime().exec("allure open");
+            Runtime.getRuntime().exec("generateAllureReport.bat");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

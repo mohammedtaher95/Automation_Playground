@@ -7,7 +7,7 @@ import org.testng.Assert;
 
 public class Homepage {
 
-    public Driver driver;
+    public final Driver driver;
 
     By loginLink = By.xpath("//a[@href=\"/login\"]");
     By logoutLink = By.xpath("//a[@href=\"/logout\"]");
