@@ -14,20 +14,21 @@ import java.time.Duration;
 
 public class ContactUsTest {
 
-    public Driver driver;
-    ThreadLocal<Driver> parallelDriver;
+    public ThreadLocal<Driver> driver;
+    //ThreadLocal<Driver> parallelDriver;
 
     @BeforeClass
     @Parameters(value = {"browserName"})
     public void setUp(@Optional("EDGE") String browserName) {
-        driver = new Driver();
-        driver.get().manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
+        driver = new ThreadLocal<>();
+        driver.set(new Driver(browserName));
+        driver.get().get().manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
 
     }
 
     @Test
     public void contactUsTest() {
-        new Homepage(driver).checkThatUserShouldBeNavigatedToHomePageSuccessfully()
+        new Homepage(driver.get()).checkThatUserShouldBeNavigatedToHomePageSuccessfully()
                 .clickOnContactUsLink()
                 .checkThatContactUsPageIsLoadedSuccessfully()
                 .fillInContactUsForm("Mohammed", "test12345@gmail.com", "Test", "Welcome")
@@ -53,7 +54,7 @@ public class ContactUsTest {
 
     @AfterClass
     public void tearDown() {
-        driver.get().manage().deleteAllCookies();
-        driver.quit();
+        driver.get().get().manage().deleteAllCookies();
+        driver.get().quit();
     }
 }
