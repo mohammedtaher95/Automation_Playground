@@ -16,7 +16,7 @@ import java.time.Duration;
 
 public class NewTest {
 
-    Driver driver;
+    public Driver driver;
 
     WebDriverWait wait;
 
@@ -37,7 +37,7 @@ public class NewTest {
                 .clickOnLoginLink()
                 .checkThatUserIsNavigatedToLoginSignUpPage()
                 .fillInSignUpName("Mohammed")
-                .fillInSignUpEmail("testl584666@gmail.com")
+                .fillInSignUpEmail("test9584666@gmail.com")
                 .clickOnSignUpButton()
                 .checkThatRegistrationPageIsLoadedSuccessfully()
                 .fillInRegistrationPage()
@@ -53,7 +53,7 @@ public class NewTest {
     public void userCanLoginSuccessfully() {
         driver.get().navigate().to("https://automationexercise.com/login");
 
-        new LoginSignUpPage(driver).fillInLoginEmail("testl584666@gmail.com")
+        new LoginSignUpPage(driver).fillInLoginEmail("test9584666@gmail.com")
                 .fillInLoginPassword("12345678")
                 .clickOnLoginButton().checkThatLogoutLinkShouldBeDisplayed();
     }
@@ -68,7 +68,7 @@ public class NewTest {
     @Test(dependsOnMethods = "userCanLogoutSuccessfully", priority = 4)
     public void userCanDeleteAccountSuccessfully() {
 
-        new LoginSignUpPage(driver).fillInLoginEmail("testl584666@gmail.com")
+        new LoginSignUpPage(driver).fillInLoginEmail("test9584666@gmail.com")
                 .fillInLoginPassword("12345678")
                 .clickOnLoginButton()
                 .checkThatLogoutLinkShouldBeDisplayed()
