@@ -1,11 +1,14 @@
 package listeners.testng;
 
 import driverfactory.Driver;
+import io.qameta.allure.Allure;
+import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.WebDriver;
 import org.testng.*;
 import utilities.AllureReportHelper;
 import utilities.ScreenShotManager;
 
+import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
 
@@ -76,6 +79,15 @@ public class TestNGListener implements IExecutionListener, ITestListener {
 
         assert driver != null;
         ScreenShotManager.captureScreenshot(driver.get(), result.getName());
+
+        String fullPath = System.getProperty("user.dir") + result.getName();
+
+        try {
+            Allure.addAttachment(result.getMethod().getConstructorOrMethod().getName(),
+                    FileUtils.openInputStream(new File(fullPath)));
+        } catch (IOException e) {
+            System.out.println("Attachment isn't Found");
+        }
 
 //        try {
 //            ScreenShotManager.captureScreenshot(
